@@ -36,8 +36,8 @@ export class IssueService {
               x.changelog = x.changelog.flat();
               arrayOfCustomObject.push(x);
           }
-          console.log("Hello Its there");
-          console.log(arrayOfCustomObject[0]);
+          //console.log("Hello Its there");
+          //console.log(arrayOfCustomObject[0]);
           this.issueRepository.save(arrayOfCustomObject);    
           
           return result;

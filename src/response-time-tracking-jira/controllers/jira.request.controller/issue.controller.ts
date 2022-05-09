@@ -12,18 +12,34 @@ export class IssueController {
     async getIssueResponse():Promise<any>{
 
       const result = this.issueService.get('search');
-      console.log('In Controller:::');
-      //console.log(JSON.stringify(result));
-
       return (await result).data;
     }
 
     @Post('postData')
     async getPostResponse():Promise<any>{
-      const result =   await this.issueService.post('search',{"fields": ["*all"],"expand": ["changelog"],"limit":2, "startAt":0});
-      console.log('In Controller:::');
-      //console.log(JSON.stringify(result.data));
-      return result;
+
+      try{
+        console.log('In Controller:::');
+
+        let resultData = [];
+        let startVar = 0;
+        let result:any = {};
+  
+        do {
+          result =   await this.issueService.post('search',{"fields": ["*all"],"expand": ["changelog"], "maxResults":2, "startAt":startVar});
+          console.log("Result is:::"+result.data);
+          startVar += 2;
+          console.log("Next");
+          resultData.push(result);
+        }
+        while(result.data.issues.length > 0)
+      
+        return result.data;
+      }
+      catch (err) {
+        console.log(err);
+      }
+      
     }
 
     @Get('updatedData')
